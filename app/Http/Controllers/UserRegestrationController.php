@@ -18,7 +18,6 @@ class UserRegestrationController extends Controller
         $users = User::all();
         // dd($users);
         return view('user_reg.all_users', compact('users'));
-
     }
 
     /**

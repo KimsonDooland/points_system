@@ -16,7 +16,8 @@ class CreateUserPointsTable extends Migration
         Schema::create('user_points', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->integer('points');
+            $table->integer('points')->default(0);
+            $table->integer('price')->default(0);
             $table->timestamps();
         });
     }
