@@ -1,7 +1,6 @@
 <?php
 
 namespace App;
-
 use Illuminate\Database\Eloquent\Model;
 
 class UserRef extends Model
@@ -12,6 +11,6 @@ class UserRef extends Model
 
     public function user()
     {
-    	return $this->belongsTo('App\User');
+    	return $this->belongsTo('\App\User','main_user_id');
     }
 }
