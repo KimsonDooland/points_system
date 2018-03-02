@@ -22,3 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/users', 'UserRegestrationController@index');
 Route::get('/users_add', 'UserRegestrationController@create');
 Route::post('/users_create', 'UserRegestrationController@store');
+
+Route::get('/get_points', 'UserPointsController@index');
+Route::get('/points_add', 'UserPointsController@create');
+Route::post('/points_create', 'UserPointsController@store');
