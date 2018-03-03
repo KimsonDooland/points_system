@@ -39,6 +39,18 @@
           <input type="number" class="form-control form-control-lg" id="phone_number" placeholder="Phone Number" name="phone_number" required>
         </div>
     </div>
+
+    <div class="form-group row">
+     <label for="phone_number" class="col-sm-2 col-form-label col-form-label-lg">Refr User</label>
+        <div class="col-sm-10">
+        <select name="refering_user" class="form-control form-control-lg">
+              <option value="0">No Refrence</option>
+           @foreach($users as $user)
+              <option value="{{$user->id}}">{{$user->name}}</option>
+          @endforeach
+        </select>
+        </div>
+    </div>
    
     <div class="form-group row">
       <div class="col-md-2"></div>
