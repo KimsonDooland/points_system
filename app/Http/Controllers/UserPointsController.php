@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\UserPoints;
+use \App\UserRef;
 use DB;
 use Session;
 use Redirect;
@@ -73,20 +74,20 @@ class UserPointsController extends Controller
                                     }
                         }elseif($get_user_points){
 
-                            $get_user_price = DB::table('user_points')->select('price')
+                            $user = DB::table('user_points')->select('*')
                                 ->where('user_id',$user_id->id)->first();
                                 //getting points from price
                                 $points = $price / 100;
                                 //adding user prices
-                                $total_price = $get_user_price->price + $price;
+                                $total_price = $user->price + $price;
                                 //adding previous points with the new points
                                 $main_user_points = $get_user_points->points + $points;
-
-                                 $user_point = new UserPoints([
-                                    'user_id' => $user_id->id,
-                                    'points' => $main_user_points,
-                                    'price' => $total_price
-                                ]);
+                                
+                                //update user
+                                 $user_point = UserPoints::find($user->id);
+                                    $user_point->user_id = $user_id->id;
+                                    $user_point->points = $main_user_points;
+                                    $user_point->price = $total_price;
                                  // dd($user_point);
 
                                   if($user_point->save())
@@ -111,48 +112,20 @@ class UserPointsController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function reference_index()
     {
-        //
+        return view('reference_user.reference');
     }
+   public function reference(Request $request)
+   {
+        $ref_table = UserRef::all();
+        $phone_number = $request->get('phone_number');
+        $user = DB::table('users')->select('*')
+                        ->where('phone_number',$phone_number)->first();
+        //getting all refered user.
+        $refered_user = \App\User::find($user->id)->user_refs;
+        
+        return view('reference_user.view_refered',compact('refered_user','user'));
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+   }
 }
